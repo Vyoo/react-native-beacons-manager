@@ -257,28 +257,30 @@ RCT_EXPORT_METHOD(shouldDropEmptyRanges:(BOOL)drop)
 
 -(void)locationManager:(CLLocationManager *)manager
         didEnterRegion:(CLBeaconRegion *)region {
-  NSDictionary *event = @{
-                          @"identifier": region.identifier,
-                          @"uuid": [region.proximityUUID UUIDString],
-                          };
 
   if (! [region respondsToSelector:@selector(proximityUUID)]) {
         return;
   }
+
+  NSDictionary *event = @{
+                          @"identifier": region.identifier,
+                          @"uuid": [region.proximityUUID UUIDString],
+                          };
 
   [self.bridge.eventDispatcher sendDeviceEventWithName:@"regionDidEnter" body:event];
 }
 
 -(void)locationManager:(CLLocationManager *)manager
          didExitRegion:(CLBeaconRegion *)region {
-  NSDictionary *event = @{
-                          @"identifier": region.identifier,
-                          @"uuid": [region.proximityUUID UUIDString],
-                          };
 
   if (! [region respondsToSelector:@selector(proximityUUID)]) {
         return;
   }
+  
+  NSDictionary *event = @{
+                          @"identifier": region.identifier,
+                          @"uuid": [region.proximityUUID UUIDString],
+                          };
 
   [self.bridge.eventDispatcher sendDeviceEventWithName:@"regionDidExit" body:event];
 }
